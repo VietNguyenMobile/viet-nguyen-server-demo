@@ -29,7 +29,7 @@ const studentsRoutes = require("./routers/students");
 const citiesRoutes = require("./routers/cities");
 
 const api = process.env.API_URL;
-const PORT = 4000;
+const PORT = 3000;
 const URL = `http://localhost:${PORT}`;
 
 // Routers
@@ -69,6 +69,6 @@ mongoose
     console.log("Error: ", err);
   });
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log("Server is running ", URL);
 });
