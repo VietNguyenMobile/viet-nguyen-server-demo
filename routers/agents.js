@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const IDGenerator = require("../helpers/generateId");
 
 router.get("/", async (req, res) => {
   const agentList = await Agent.find();
@@ -35,8 +36,9 @@ router.post("/", async (req, res) => {
     email: req.body.email,
     passwordHash: bcrypt.hashSync(req.body.password, 10),
     isAdmin: req.body.isAdmin,
+    softId: `A${new IDGenerator().generate()}`,
   });
-
+  // console.log("agent: ", agent);
   agent = await agent.save();
 
   if (!agent) return res.status(400).send("the agent cannot be created!");

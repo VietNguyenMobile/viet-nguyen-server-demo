@@ -31,6 +31,10 @@ const agentSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  softId: {
+    type: String,
+    default: "",
+  },
 });
 
 exports.Agent = mongoose.model("Agent", agentSchema);
