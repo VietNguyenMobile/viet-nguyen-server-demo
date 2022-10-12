@@ -37,7 +37,9 @@ router.post("/", async (req, res) => {
   biometric = await biometric.save();
 
   if (!biometric)
-    return res.status(400).send("the biometric cannot be created!");
+    return res
+      .status(400)
+      .send({ success: false, message: "the biometric cannot be created!" });
 
   res.send(biometric);
 });
@@ -79,9 +81,63 @@ router.put("/:id", async (req, res) => {
   });
 
   if (!biometric)
-    return res.status(401).send("the biometric cannot be update!");
+    return res
+      .status(401)
+      .send({ success: false, message: "the biometric cannot be update!" });
 
   res.send(biometric);
+});
+
+router.put("/:agentId/biometric", async (req, res) => {
+  if (!mongoose.isValidObjectId(req.params.agentId)) {
+    return res.status(400).send("Invalid Agent Id");
+  }
+
+  const biometric = await Biometric.findOneAndUpdate(
+    { agentId: req.params.agentId },
+    {
+      biometricPublicKey: req.body.biometricPublicKey,
+    },
+    { returnOriginal: true }
+  );
+
+  console.log("biometric: ", biometric);
+
+  if (!biometric)
+    return res
+      .status(401)
+      .send({ success: false, message: "the biometric cannot be update!" });
+
+  res.status(200).send({ success: true });
+});
+
+router.get("/:agentId/verify-biometric", async (req, res) => {
+  if (!mongoose.isValidObjectId(req.params.agentId)) {
+    return res.status(400).send("Invalid Agent Id");
+  }
+
+  const biometricByAgent = await Biometric.findOne({
+    agentId: req.params.agentId,
+  });
+
+  console.log("eq.params.: ", req.params);
+
+  console.log("eq.query: ", req.query);
+
+  console.log("biometricByAgent: ", biometricByAgent);
+
+  if (!biometricByAgent) {
+    res.status(500).json({ success: false });
+  }
+
+  if (
+    req.query.signature === biometricByAgent.signature &&
+    req.query.deviceId === biometricByAgent.deviceId
+  ) {
+    res.status(200).send({ success: true });
+  } else {
+    res.status(500).json({ success: false });
+  }
 });
 
 module.exports = router;
