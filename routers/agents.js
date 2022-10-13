@@ -88,7 +88,7 @@ router.post("/login", async (req, res) => {
   console.log("req: ", req);
   const agent = await Agent.findOne({ email: req.body.email });
 
-  console.log("agent: ", agent);
+  // console.log("agent: ", agent);
 
   if (!agent) {
     return res.status(400).send({
@@ -109,7 +109,12 @@ router.post("/login", async (req, res) => {
 
     res
       .status(200)
-      .send({ agent: agent.email, access_token: token, refresh_token: "" });
+      .send({
+        agent: agent.email,
+        access_token: token,
+        refresh_token: "",
+        agentId: agent.id,
+      });
   } else {
     res.status(400).send("password is wrong!");
   }
