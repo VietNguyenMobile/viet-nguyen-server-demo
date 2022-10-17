@@ -107,14 +107,12 @@ router.post("/login", async (req, res) => {
       }
     );
 
-    res
-      .status(200)
-      .send({
-        agent: agent.email,
-        access_token: token,
-        refresh_token: "",
-        agentId: agent.id,
-      });
+    res.status(200).send({
+      agentEmail: agent.email,
+      accessToken: token,
+      refreshToken: "",
+      agentId: agent.id,
+    });
   } else {
     res.status(400).send("password is wrong!");
   }
