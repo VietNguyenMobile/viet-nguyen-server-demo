@@ -32,11 +32,7 @@ const biometricSchema = mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now,
-  },
-  biometricPublicKey: {
-    type: String,
-    default: "",
-  },
+  }
 });
 
 exports.Biometric = mongoose.model("Biometric", biometricSchema);

@@ -88,28 +88,28 @@ router.put("/:id", async (req, res) => {
   res.send(biometric);
 });
 
-router.put("/:agentId/biometric", async (req, res) => {
-  if (!mongoose.isValidObjectId(req.params.agentId)) {
-    return res.status(400).send("Invalid Agent Id");
-  }
+// router.put("/:agentId/biometric", async (req, res) => {
+//   if (!mongoose.isValidObjectId(req.params.agentId)) {
+//     return res.status(400).send("Invalid Agent Id");
+//   }
 
-  const biometric = await Biometric.findOneAndUpdate(
-    { agentId: req.params.agentId },
-    {
-      biometricPublicKey: req.body.biometricPublicKey,
-    },
-    { returnOriginal: true }
-  );
+//   const biometric = await Biometric.findOneAndUpdate(
+//     { agentId: req.params.agentId },
+//     {
+//       biometricPublicKey: req.body.biometricPublicKey,
+//     },
+//     { returnOriginal: true }
+//   );
 
-  console.log("biometric: ", biometric);
+//   console.log("biometric: ", biometric);
 
-  if (!biometric)
-    return res
-      .status(401)
-      .send({ success: false, message: "the biometric cannot be update!" });
+//   if (!biometric)
+//     return res
+//       .status(401)
+//       .send({ success: false, message: "the biometric cannot be update!" });
 
-  res.status(200).send({ success: true });
-});
+//   res.status(200).send({ success: true });
+// });
 
 router.get("/:agentId/verify-biometric", async (req, res) => {
   if (!mongoose.isValidObjectId(req.params.agentId)) {

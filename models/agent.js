@@ -35,6 +35,10 @@ const agentSchema = mongoose.Schema({
     type: String,
     default: "",
   },
+  biometricPublicKey: {
+    type: String,
+    default: "",
+  },
 });
 
 exports.Agent = mongoose.model("Agent", agentSchema);
