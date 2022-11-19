@@ -75,20 +75,20 @@ router.put("/:id", async (req, res) => {
 
   const agent = await Agent.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
-    icon: req.body.icon,
-    color: req.body.color,
   });
+
+  console.log("agent: ", agent);
 
   if (!agent) return res.status(401).send("the agent cannot be update!");
 
-  res.send(agent);
+  res.status(200).send({ success: true });
 });
 
 router.post("/login", async (req, res) => {
   console.log("req: ", req);
   const agent = await Agent.findOne({ email: req.body.email });
 
-  console.log("agent: ", agent);
+  // console.log("agent: ", agent);
 
   if (!agent) {
     return res.status(400).send({
@@ -107,12 +107,36 @@ router.post("/login", async (req, res) => {
       }
     );
 
-    res
-      .status(200)
-      .send({ agent: agent.email, access_token: token, refresh_token: "" });
+    res.status(200).send({
+      agentEmail: agent.email,
+      accessToken: token,
+      refreshToken: "",
+      agentId: agent.id,
+    });
   } else {
     res.status(400).send("password is wrong!");
   }
+});
+
+router.put("/:agentId/biometric", async (req, res) => {
+  if (!mongoose.isValidObjectId(req.params.agentId)) {
+    return res.status(400).send("Invalid Agent Id");
+  }
+
+  console.log("biometricPublicKey req.body: ", req.body);
+
+  const agent = await Agent.findByIdAndUpdate(req.params.agentId, {
+    biometricPublicKey: req.body.biometricPublicKey,
+  });
+  console.log("agent: ", agent);
+
+  if (!agent)
+    return res.status(401).send({
+      success: false,
+      message: "the agent biometric cannot be update!",
+    });
+
+  res.status(200).send({ success: true });
 });
 
 module.exports = router;

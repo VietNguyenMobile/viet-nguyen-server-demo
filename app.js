@@ -28,6 +28,7 @@ const agentsRoutes = require("./routers/agents");
 const studentsRoutes = require("./routers/students");
 const citiesRoutes = require("./routers/cities");
 const qrCodeRoutes = require("./routers/qrCode");
+const biometricsRoutes = require("./routers/biometrics");
 
 const api = process.env.API_URL;
 const PORT = 3000;
@@ -43,6 +44,7 @@ app.use(`${api}/agents`, agentsRoutes);
 app.use(`${api}/students`, studentsRoutes);
 app.use(`${api}/cities`, citiesRoutes);
 app.use(`${api}/decode-vietqr`, qrCodeRoutes);
+app.use(`${api}/biometrics`, biometricsRoutes);
 
 // Models
 const Product = require("./models/product");
