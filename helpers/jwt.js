@@ -25,6 +25,10 @@ function authJwt() {
       `${api}/agents/login`,
       { url: /\/api\/v1\/students(.*)/, methods: ["POST", "GET", "OPTIONS"] },
       { url: /\/api\/v1\/cities(.*)/, methods: ["POST", "GET", "OPTIONS"] },
+      {
+        url: /\/api\/v1\/decode-vietqr(.*)/,
+        methods: ["POST", "GET", "OPTIONS"],
+      },
     ],
   });
 }
